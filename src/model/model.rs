@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use super::objects::object::Object;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Coordinate(i32, i32, i32);
+pub struct Coordinate(f32, f32, f32);
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Model {
