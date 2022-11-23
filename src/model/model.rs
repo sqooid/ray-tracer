@@ -1,17 +1,20 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
-struct Coordinate(i32, i32, i32);
+use super::objects::object::Object;
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Model {
-    width: u32,
-    height: u32,
-    camera: Camera,
+pub struct Coordinate(i32, i32, i32);
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Model {
+    pub width: u32,
+    pub height: u32,
+    pub camera: Camera,
+    pub objects: Vec<Object>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Camera {
-    position: Coordinate,
-    points_to: Coordinate,
+pub struct Camera {
+    pub position: Coordinate,
+    pub points_to: Coordinate,
 }
