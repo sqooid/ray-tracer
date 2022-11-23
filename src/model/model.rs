@@ -1,9 +1,11 @@
 use serde::{Deserialize, Serialize};
 
+use crate::math::vector::Coordinate;
+
 use super::objects::object::Object;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct Coordinate(f32, f32, f32);
+pub struct Rgb(u8, u8, u8);
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Model {
