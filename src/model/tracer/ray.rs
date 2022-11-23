@@ -4,6 +4,6 @@ use crate::math::vector::Coordinate;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Ray {
-    origin: Coordinate,
-    direction: Coordinate,
+    pub origin: Coordinate,
+    pub direction: Coordinate,
 }
