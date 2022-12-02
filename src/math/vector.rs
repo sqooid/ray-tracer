@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::{borrow::Borrow, ops};
+use std::ops;
 
 use crate::model::tracer::ray::Ray;
 
@@ -18,6 +18,10 @@ pub struct Coordinate(f32, f32, f32);
 impl Coordinate {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Self(x, y, z)
+    }
+
+    pub fn random_gaussian() -> Self {
+        todo!()
     }
 
     pub fn x(&self) -> f32 {
