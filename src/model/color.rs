@@ -10,14 +10,14 @@ impl<T> Rgb<T> {
         Self(r, g, b)
     }
 
-    pub fn r(&self) -> T {
-        self.0
+    pub fn r(&self) -> &T {
+        &self.0
     }
-    pub fn g(&self) -> T {
-        self.1
+    pub fn g(&self) -> &T {
+        &self.1
     }
-    pub fn b(&self) -> T {
-        self.2
+    pub fn b(&self) -> &T {
+        &self.2
     }
 }
 
@@ -37,6 +37,16 @@ impl From<Rgb<f32>> for Rgb<u8> {
             normalized_to_u8(old.0),
             normalized_to_u8(old.1),
             normalized_to_u8(old.2),
+        )
+    }
+}
+
+impl From<Rgb<u8>> for Rgb<f32> {
+    fn from(old: Rgb<u8>) -> Self {
+        Self(
+            old.0 as f32 / 255.0,
+            old.1 as f32 / 255.0,
+            old.2 as f32 / 255.0,
         )
     }
 }

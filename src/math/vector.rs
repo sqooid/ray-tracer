@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::ops;
 
-use crate::model::tracer::ray::Ray;
+use crate::render::ray::Ray;
 
 pub fn dot(v1: &Coordinate, v2: &Coordinate) -> f32 {
     v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z()

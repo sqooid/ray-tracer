@@ -1,4 +1,4 @@
-use crate::model::{materials::material::Surface, model::Rgb, tracer::ray::Ray};
+use crate::{model::materials::material::Surface, render::ray::Ray};
 
 pub trait Collidable: Textured {
     /// Check if a ray collides with this object

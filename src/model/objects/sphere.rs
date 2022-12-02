@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::render::ray::Ray;
+
 use super::traits::{Collidable, Textured};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -12,11 +14,11 @@ impl Textured for Sphere {
 }
 
 impl Collidable for Sphere {
-    fn collision_distance(&self, ray: &crate::model::tracer::ray::Ray) -> Option<f32> {
+    fn collision_distance(&self, ray: &Ray) -> Option<f32> {
         todo!()
     }
 
-    fn bounce(&self, ray: &crate::model::tracer::ray::Ray) -> crate::model::tracer::ray::Ray {
+    fn bounce(&self, ray: &Ray) -> Ray {
         todo!()
     }
 }

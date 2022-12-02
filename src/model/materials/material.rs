@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::model::model::Rgb;
+use crate::model::color::Rgb;
 
 use super::diffuse::Diffuse;
 
@@ -11,5 +11,5 @@ pub enum Material {
 
 pub trait Surface {
     fn get_radius(&self) -> f32;
-    fn get_color(&self) -> &Rgb;
+    fn get_color(&self) -> &Rgb<f32>;
 }
