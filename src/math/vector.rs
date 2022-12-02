@@ -1,21 +1,9 @@
 use serde::{Deserialize, Serialize};
 use std::ops;
 
-use crate::render::ray::Ray;
-
-pub fn dot(v1: &Coordinate, v2: &Coordinate) -> f32 {
-    v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z()
-}
-
-pub fn point_ray_perp_t(point: &Coordinate, ray: &Ray) -> f32 {
-    let a = point - &ray.origin;
-    let b = &ray.direction;
-    dot(&a, &b.norm())
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct Coordinate(f32, f32, f32);
-impl Coordinate {
+#[derive(Debug, Deserialize, Serialize, Default)]
+pub struct Vector3(f32, f32, f32);
+impl Vector3 {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Self(x, y, z)
     }
@@ -35,50 +23,113 @@ impl Coordinate {
     }
 
     pub fn abs(&self) -> f32 {
-        f32::sqrt(dot(self, self))
+        f32::sqrt(self.dot(self))
     }
 
-    pub fn norm(&self) -> Coordinate {
+    pub fn normalized(&self) -> Self {
         self / self.abs()
     }
+
+    pub fn dot<T: AsRef<Self>>(&self, other: T) -> f32 {
+        let other = other.as_ref();
+        self.0 * other.0 + self.1 * other.1 + self.2 * other.2
+    }
+
+    pub fn cross<T: AsRef<Self>>(&self, other: T) -> Self {
+        let other = other.as_ref();
+        Self(
+            self.1 * other.2 - self.2 * other.1,
+            self.0 * other.2 - self.2 * other.0,
+            self.0 * other.1 - self.1 * other.0,
+        )
+    }
 }
 
-impl ops::Add for &Coordinate {
-    type Output = Coordinate;
+impl ops::Add for &Vector3 {
+    type Output = Vector3;
 
     fn add(self, rhs: Self) -> Self::Output {
-        Coordinate::new(self.x() + rhs.x(), self.y() + rhs.y(), self.z() + rhs.z())
+        Vector3::new(self.0 + rhs.0, self.1 + rhs.1, self.2 + rhs.2)
     }
 }
 
-impl ops::Sub for &Coordinate {
-    type Output = Coordinate;
+impl ops::Sub for &Vector3 {
+    type Output = Vector3;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        Coordinate::new(self.x() - rhs.x(), self.y() - rhs.y(), self.z() - rhs.z())
+        Vector3::new(self.0 - rhs.0, self.1 - rhs.1, self.2 - rhs.2)
     }
 }
 
-impl ops::Mul<f32> for &Coordinate {
-    type Output = Coordinate;
+impl ops::Mul<f32> for &Vector3 {
+    type Output = Vector3;
 
     fn mul(self, rhs: f32) -> Self::Output {
-        Coordinate::new(self.x() * rhs, self.y() * rhs, self.z() * rhs)
+        Vector3::new(self.0 * rhs, self.1 * rhs, self.2 * rhs)
     }
 }
 
-impl ops::Mul<&Coordinate> for f32 {
-    type Output = Coordinate;
+impl ops::Mul<&Vector3> for f32 {
+    type Output = Vector3;
 
-    fn mul(self, rhs: &Coordinate) -> Self::Output {
+    fn mul(self, rhs: &Vector3) -> Self::Output {
         rhs * self
     }
 }
 
-impl ops::Div<f32> for &Coordinate {
-    type Output = Coordinate;
+impl ops::Div<f32> for &Vector3 {
+    type Output = Vector3;
 
     fn div(self, rhs: f32) -> Self::Output {
-        Coordinate::new(self.x() / rhs, self.y() / rhs, self.z() / rhs)
+        Vector3::new(self.0 / rhs, self.1 / rhs, self.2 / rhs)
+    }
+}
+
+// Reimplementing for non-borrowed types
+
+impl ops::Add for Vector3 {
+    type Output = Vector3;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        &self + &rhs
+    }
+}
+
+impl ops::Sub for Vector3 {
+    type Output = Vector3;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        &self - &rhs
+    }
+}
+
+impl ops::Mul<f32> for Vector3 {
+    type Output = Vector3;
+
+    fn mul(self, rhs: f32) -> Self::Output {
+        &self * rhs
+    }
+}
+
+impl ops::Mul<Vector3> for f32 {
+    type Output = Vector3;
+
+    fn mul(self, rhs: Vector3) -> Self::Output {
+        &rhs * self
+    }
+}
+
+impl ops::Div<f32> for Vector3 {
+    type Output = Vector3;
+
+    fn div(self, rhs: f32) -> Self::Output {
+        &self / rhs
+    }
+}
+
+// Logistics
+impl AsRef<Vector3> for Vector3 {
+    fn as_ref(&self) -> &Vector3 {
+        self
     }
 }

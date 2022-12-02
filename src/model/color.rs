@@ -31,22 +31,22 @@ impl<T: std::ops::Mul<Output = T>> ops::Mul for Rgb<T> {
 
 pub type RgbImage = ImageBuffer<Rgb<u8>, Vec<u8>>;
 
-impl From<Rgb<f32>> for Rgb<u8> {
+impl From<Rgb<f32>> for image::Rgb<u8> {
     fn from(old: Rgb<f32>) -> Self {
-        Self(
+        Self([
             normalized_to_u8(old.0),
             normalized_to_u8(old.1),
             normalized_to_u8(old.2),
-        )
+        ])
     }
 }
 
-impl From<Rgb<u8>> for Rgb<f32> {
-    fn from(old: Rgb<u8>) -> Self {
+impl From<image::Rgb<u8>> for Rgb<f32> {
+    fn from(old: image::Rgb<u8>) -> Self {
         Self(
-            old.0 as f32 / 255.0,
-            old.1 as f32 / 255.0,
-            old.2 as f32 / 255.0,
+            old[0] as f32 / 255.0,
+            old[1] as f32 / 255.0,
+            old[2] as f32 / 255.0,
         )
     }
 }
